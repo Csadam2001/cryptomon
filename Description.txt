@@ -1,0 +1,76 @@
+Monster attributes:
+
+- Healt Points(HP): Each monster has a given Hp, if the monster takes damage the hp lowers, if it runs out the monster dies. If the monster levels up this can increase.
+
+- Mana: Each monster has a given Mana, it can cast spells with it, which effects the enemy monster in some effect,
+        every turn it regenerates some mana, can increase with levels.
+
+- Basic Attack: A basic melee or ranged attack, which deals damage, doesnt consume mana. 
+
+- Special Attacks: Based on rarity, the monster has 1-3 special attacks, which consume mana, and does various effects.
+
+- Speed: If a monster has greater speed that the enemy monster, it can attack first. It can increase with levels.
+
+Special attacks:
+
+*Common:
+- Heavy attack: Deals greater damage, then basic attacks.
+
+- Heal: Regenerates some of the hp, for the monster.
+
+- Defend: Gets a shield outside of the hp, speels still affects the hp. Gives you more then a heal would.
+
+*Rare:
+- Slowing: Decreases the speed of the enemy monster.
+
+- Fire ball: A damaging spell, which ignores the enemy monsters shield.
+
+*Very Rare:
+
+- Mana consume: Decreases the enemy monster mana to 0.
+
+- Avalanche: Deals damage to the enemy, and decreses its speed.
+
+Rarity levels:
+
+- Common
+- Rare
+- Very Rare
+
+Battle, levelling up, xp gain:
+
+Xp need for new level:
+
+Common monster: 
+From level 1 - 10: 100xp
+From level 11 - 20: 200xp
+From level 21 - 30: 300xp
+
+Rare monster:
+From level 1 - 10: 150xp
+From level 11 - 20: 300xp
+From level 21 - 30: 450xp
+
+Very Rare monster:
+From level 1 - 10: 200xp
+From level 11 - 20: 400xp
+From level 21 - 30: 600xp
+
+Xp gained for killing monster:
+
+- Common: 100xp
+- Rare: 150xp
+- Very Rare: 200xp
+
+Monster levelling up:
+
+- If a monster levels up: gets:
++2% for: Hp, Mana, Basic Attack Damage
++1% for: Speed
+
+If a monster reaches level 10, 20 or 30:
+
+Evolves and gets:
++10% for: Hp, Mana, Basic Attack Damage
++5% for: Speed
++10% for: Special attack duration, or damage
