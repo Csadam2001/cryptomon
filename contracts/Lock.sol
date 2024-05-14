@@ -22,7 +22,7 @@ contract CryptoMon is ERC721URIStorage, Ownable {
     event MonsterCreated(uint256 indexed monsterId, address owner);
     event BattleResult(uint256 indexed winnerId, uint256 indexed loserId);
 
-    constructor() ERC721("CryptoMon", "CMON") {}
+    constructor(address initialOwner) Ownable(initialOwner) ERC721("CryptoMon", "CMON") {}
 
     function createMonster(
         uint256 health,

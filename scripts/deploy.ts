@@ -1,17 +1,17 @@
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
 
 async function main() {
-    const CryptoMon = await hre.ethers.getContractFactory("CryptoMon");
-    const cryptoMon = await CryptoMon.deploy();
+  const CryptoMon = await ethers.getContractFactory("CryptoMon");
+  const cryptoMon = await CryptoMon.deploy();
 
-    await cryptoMon.deployed();
+  await cryptoMon.deployed();
 
-    console.log("CryptoMon deployed to:", cryptoMon.address);
+  console.log("CryptoMon deployed to:", cryptoMon.address);
 }
 
 main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

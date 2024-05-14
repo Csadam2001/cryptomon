@@ -22,7 +22,7 @@ describe("CryptoMon Contract", function () {
     });
 
     it("Should create a monster and assign it to owner", async function () {
-      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster1");
+      await cryptoMon.createMonster(0,100, 50, 20, 15, 10,1,0, "uri://monster1");
       const monster = await cryptoMon.monsters(0);
       expect(await cryptoMon.ownerOf(0)).to.equal(owner.address);
       expect(monster.health).to.equal(100);
@@ -31,8 +31,8 @@ describe("CryptoMon Contract", function () {
 
   describe("Monster battles", function () {
     beforeEach(async function () {
-      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster1");
-      await cryptoMon.createMonster(90, 40, 25, 10, 8, "uri://monster2");
+      await cryptoMon.createMonster(1,100, 50, 20, 15, 10,1,0, "uri://monster1");
+      await cryptoMon.createMonster(2,90, 40, 25, 10, 8,1,0, "uri://monster2");
     });
 
     it("Should allow monsters to battle and transfer XP", async function () {
@@ -46,7 +46,7 @@ describe("CryptoMon Contract", function () {
 
   describe("Leveling and Evolution", function () {
     beforeEach(async function () {
-      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster1");
+      await cryptoMon.createMonster(3,100, 50, 20, 15, 10,1,0, "uri://monster1");
     });
 
     it("Should level up a monster after gaining enough XP", async function () {

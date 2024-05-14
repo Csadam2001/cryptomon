@@ -39,5 +39,8 @@ module.exports = {
   },
   mocha: {
     timeout: 20000 // 20 másodperces időkorlát a tesztek futtatására
+  },
+  paths: {
+    artifacts: "./artifacts"
   }
 };
