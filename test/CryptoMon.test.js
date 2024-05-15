@@ -2,19 +2,20 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("CryptoMon Contract", function () {
-  let CryptoMon;
   let cryptoMon;
   let owner;
-  let addr1;
-  let addr2;
-  let addrs;
 
   beforeEach(async function () {
-    CryptoMon = await ethers.getContractFactory("CryptoMon");
-    [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-    cryptoMon = await CryptoMon.deploy(owner.address);
-    await cryptoMon.deployed(); // Correct usage
+    const CryptoMon = await ethers.getContractFactory("CryptoMon");
+    cryptoMon = await CryptoMon.deploy();
+    await cryptoMon.deployed();
+    [owner] = await ethers.getSigners();
   });
+
+  it("Should set the right owner", async function () {
+    expect(await cryptoMon.owner()).to.equal(owner.address);
+  });
+});
 
   describe("Deployment", function () {
     it("Should set the right owner", async function () {
@@ -55,4 +56,3 @@ describe("CryptoMon Contract", function () {
       expect(monster.level).to.be.above(1);
     });
   });
-});
