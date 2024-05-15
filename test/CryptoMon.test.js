@@ -12,8 +12,8 @@ describe("CryptoMon Contract", function () {
   beforeEach(async function () {
     CryptoMon = await ethers.getContractFactory("CryptoMon");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-    cryptoMon = await CryptoMon.deploy();
-    await cryptoMon.deployed();
+    cryptoMon = await CryptoMon.deploy(owner.address);
+    await cryptoMon.deployed(); // Correct usage
   });
 
   describe("Deployment", function () {
@@ -22,7 +22,7 @@ describe("CryptoMon Contract", function () {
     });
 
     it("Should create a monster and assign it to owner", async function () {
-      await cryptoMon.createMonster(0,100, 50, 20, 15, 10,1,0, "uri://monster1");
+      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster1");
       const monster = await cryptoMon.monsters(0);
       expect(await cryptoMon.ownerOf(0)).to.equal(owner.address);
       expect(monster.health).to.equal(100);
@@ -31,8 +31,8 @@ describe("CryptoMon Contract", function () {
 
   describe("Monster battles", function () {
     beforeEach(async function () {
-      await cryptoMon.createMonster(1,100, 50, 20, 15, 10,1,0, "uri://monster1");
-      await cryptoMon.createMonster(2,90, 40, 25, 10, 8,1,0, "uri://monster2");
+      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster2");
+      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster3");
     });
 
     it("Should allow monsters to battle and transfer XP", async function () {
@@ -40,21 +40,19 @@ describe("CryptoMon Contract", function () {
       const monster1 = await cryptoMon.monsters(0);
       const monster2 = await cryptoMon.monsters(1);
       expect(monster2.health).to.be.below(90);
-      // Add more checks depending on the specifics of attack outcomes
     });
   });
 
   describe("Leveling and Evolution", function () {
     beforeEach(async function () {
-      await cryptoMon.createMonster(3,100, 50, 20, 15, 10,1,0, "uri://monster1");
+      await cryptoMon.createMonster(100, 50, 20, 15, 10, "uri://monster4");
     });
 
     it("Should level up a monster after gaining enough XP", async function () {
       // Simulate gaining XP
-      await cryptoMon.connect(addr1).battleAndGainXP(0, {value: ethers.utils.parseEther("1")});
+      await cryptoMon.connect(addr1).battleAndGainXP(0, { value: ethers.utils.parseEther("1") });
       const monster = await cryptoMon.monsters(0);
       expect(monster.level).to.be.above(1);
-      // Check if attributes have increased correctly
     });
   });
 });
