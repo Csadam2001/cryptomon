@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CryptoMon is ERC721URIStorage, Ownable {
+contract Lock is ERC721URIStorage, Ownable {
     struct Monster {
         uint256 id;
         uint256 health;
