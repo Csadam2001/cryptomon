@@ -1,6 +1,5 @@
-const { expect } = require("chai");
+const { ethers, hardhat } = require("hardhat");
 const Web3 = require("web3");
-const { artifacts } = require("hardhat");
 
 describe("Lock Contract", function () {
   let lock;
@@ -11,16 +10,14 @@ describe("Lock Contract", function () {
 
   before(async function () {
     // Initialize Web3
-    web3 = new Web3(artifacts.options.provider);
-
-    // Retrieve accounts
+    web3 = new Web3(hardhat.network.provider); // Ensure that hardhat.network.provider is defined
     accounts = await web3.eth.getAccounts();
     owner = accounts[0];
   });
 
   beforeEach(async function () {
     // Get the compiled contract
-    const Lock = artifacts.require("Lock");
+    const Lock = artifacts.require("Lock"); // Use artifacts object from hardhat
 
     // Get the current block timestamp
     const latestBlock = await web3.eth.getBlock('latest');

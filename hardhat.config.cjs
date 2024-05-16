@@ -11,15 +11,15 @@ module.exports = {
       // A Hardhat Network block gas limit beállítása magasabbra, ha nagy tranzakciókat hajtasz végre
       blockGasLimit: 12000000
     },
-    //rinkeby: {
-      //url: process.env.RINKEBY_URL || "",
-      //accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY}`] : [],
-    //},
-    //mainnet: {
-     // url: process.env.MAINNET_URL || "",
-      //accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY}`] : [],
-      //gasPrice: 120 * 1e9 // 120 gwei
-    //}
+    rinkeby: {
+      url: process.env.RINKEBY_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY}`] : [],
+    },
+   mainnet: {
+      url: process.env.MAINNET_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [`0x${process.env.PRIVATE_KEY}`] : [],
+      gasPrice: 120 * 1e9 // 120 gwei
+    }
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
