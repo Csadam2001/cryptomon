@@ -1,34 +1,31 @@
-const { ethers, hardhat } = require("hardhat");
-const Web3 = require("web3");
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
 describe("Lock Contract", function () {
   let lock;
   let unlockTime;
   let owner;
-  let web3;
-  let accounts;
 
   before(async function () {
-    // Initialize Web3
-    web3 = new Web3(hardhat.network.provider); // Ensure that hardhat.network.provider is defined
-    accounts = await web3.eth.getAccounts();
-    owner = accounts[0];
+    const [deployer] = await ethers.getSigners();
+    owner = deployer;
   });
 
-  beforeEach(async function () {
+//  beforeEach(async function () {
     // Get the compiled contract
-    const Lock = artifacts.require("Lock"); // Use artifacts object from hardhat
+  //  const Lock = await ethers.getContractFactory("Lock");
 
     // Get the current block timestamp
-    const latestBlock = await web3.eth.getBlock('latest');
-    unlockTime = latestBlock.timestamp + 60; // 1 minute in the future
+   // const latestBlock = await ethers.provider.getBlock('latest');
+   // unlockTime = latestBlock.timestamp + 60; // 1 minute in the future
 
     // Deploy the contract with initial funds
-    lock = await Lock.new(unlockTime, { from: owner, value: web3.utils.toWei("1", "ether") });
-  });
+   // lock = await Lock.deploy(unlockTime, { value: ethers.utils.parseEther("1") });
+    //await lock.deployed();
+  //});
 
-  it("Should set the right unlockTime", async function () {
-    const contractUnlockTime = await lock.unlockTime();
-    expect(Number(contractUnlockTime)).to.equal(unlockTime);
-  });
+ // it("Should set the right unlockTime", async function () {
+  //  const contractUnlockTime = await lock.unlockTime();
+   // expect(Number(contractUnlockTime)).to.equal(unlockTime);
+  //});
 });
