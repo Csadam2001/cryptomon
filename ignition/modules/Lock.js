@@ -1,15 +1,9 @@
 const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
-const JAN_1ST_2030 = 1893456000;
-const ONE_GWEI = 1_000_000_000n;
+const VALID_ADDRESS = "0xee30045A8E684340801ff404Cf6d3a8B9b0934C7";  // Replace with a valid Ethereum address
 
 module.exports = buildModule("LockModule", (m) => {
-  const unlockTime = m.getParameter("unlockTime", JAN_1ST_2030);
-  const lockedAmount = m.getParameter("lockedAmount", ONE_GWEI);
-
-  const lock = m.contract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  const lock = m.contract("Lock", [VALID_ADDRESS]);
 
   return { lock };
 });
