@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
-import LockABI from './LockABI.json';  // A helyes elérési útvonalra figyelj oda!
+const React = require('react');
+const { useEffect, useState } = require('react');
+const getContract = require('./utils/contract');
 
-function App() {
-  const [owner, setOwner] = useState('');
-  const [unlockTime, setUnlockTime] = useState('');
+const App = () => {
+  const [monsters, setMonsters] = useState([]);
 
-  // Egy függvény, amely inicializálja a provider, contract és meghívja a smart contract függvényeket
-  const init = async () => {
-    try {
-      // A web3 provider beállítása a felhasználó Ethereum walletjével
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // A felhasználótól származó összes fiók kérése
-      const accounts = await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-
-      // A smart contract példányosítása az ABI, cím és signer segítségével
-      const contract = new ethers.Contract(
-        'YOUR_CONTRACT_ADDRESS_HERE', // Szerződés címe
-        LockABI,
-        signer
-      );
-
-      // Lekérdezések a smart contracttól
-      const ownerAddress = await contract.owner();
-      const time = await contract.unlockTime();
-
-      // Állapotok frissítése a lekérdezett adatokkal
-      setOwner(ownerAddress);
-      setUnlockTime(new Date(time.toNumber() * 1000).toLocaleString()); // UNIX timestamp konvertálása dátummá
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  // Az init függvény meghívása a komponens betöltésekor
   useEffect(() => {
-    init();
+    const fetchMonsters = async () => {
+      const contract = getContract();
+      const totalMonsters = await contract.totalSupply();
+      const monsterArray = [];
+
+      for (let i = 0; i < totalMonsters; i++) {
+        const monster = await contract.monsters(i);
+        monsterArray.push(monster);
+      }
+        console.log(monsterArray);
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      setMonsters(monsterArray);
+    };
+
+    fetchMonsters();
   }, []);
 
+  const handleBattle = async (attackerId, defenderId) => {
+    const contract = getContract();
+    await contract.attackMonster(attackerId, defenderId);
+  };
+
   return (
-    <div className="App">
-      <h1>Cryptomon Contract Interface</h1>
-      <p><strong>Contract Owner:</strong> {owner}</p>
-      <p><strong>Unlock Time:</strong> {unlockTime}</p>
+    <div>
+      {monsters.map((monster, index) => (
+        <div key={index}>
+          <h2>Monster #{monster.id}</h2>
+          <p>Health: {monster.health}</p>
+          <p>Mana: {monster.mana}</p>
+          <p>Attack: {monster.attack}</p>
+          <p>Defense: {monster.defense}</p>
+          <p>Speed: {monster.speed}</p>
+          <button onClick={() => handleBattle(monster.id, 1)}>Attack</button>
+        </div>
+      ))}
     </div>
   );
-}
+};
 
-export default App;
+module.exports = App;
