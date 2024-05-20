@@ -1,12 +1,15 @@
 import { BrowserProvider, Contract } from 'ethers';
-import LockArtifact from '../artifacts/contracts/Lock.sol/Lock.json'; // Adjust the path based on the new location
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config';
 
-const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
-
-const getContract = () => {
-  const provider = new BrowserProvider(window.ethereum);
-  const signer = provider.getSigner();
-  return new Contract(contractAddress, LockArtifact.abi, signer);
+const getContract = async () => {
+  if (window.ethereum) {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+  } else {
+    throw new Error('No Ethereum provider found. Install MetaMask.');
+  }
 };
 
 export default getContract;
