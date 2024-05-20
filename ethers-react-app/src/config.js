@@ -1,10 +1,6 @@
 // config.js
 
-<<<<<<< HEAD
-export const CONTRACT_ADDRESS = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
-=======
-export const CONTRACT_ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
->>>>>>> 5e47cee (Save before rebase)
+export const CONTRACT_ADDRESS = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 
 export const CONTRACT_ABI = [
   {
@@ -755,6 +751,46 @@ export const CONTRACT_ABI = [
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "health", "type": "uint256" },
+      { "internalType": "uint256", "name": "mana", "type": "uint256" },
+      { "internalType": "uint256", "name": "attack", "type": "uint256" },
+      { "internalType": "uint256", "name": "defense", "type": "uint256" },
+      { "internalType": "uint256", "name": "speed", "type": "uint256" },
+      { "internalType": "string", "name": "uri", "type": "string" }
+    ],
+    "name": "createMonster",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "monsterId", "type": "uint256" }
+    ],
+    "name": "getMonster",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "id", "type": "uint256" },
+          { "internalType": "uint256", "name": "health", "type": "uint256" },
+          { "internalType": "uint256", "name": "mana", "type": "uint256" },
+          { "internalType": "uint256", "name": "attack", "type": "uint256" },
+          { "internalType": "uint256", "name": "defense", "type": "uint256" },
+          { "internalType": "uint256", "name": "speed", "type": "uint256" },
+          { "internalType": "uint256", "name": "level", "type": "uint256" },
+          { "internalType": "uint256", "name": "experience", "type": "uint256" },
+          { "internalType": "string", "name": "uri", "type": "string" }
+        ],
+        "internalType": "struct Lock.Monster",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
