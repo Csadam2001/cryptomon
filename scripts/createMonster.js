@@ -3,7 +3,7 @@ const hre = require("hardhat");
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
     const CryptoMon = await hre.ethers.getContractFactory("CryptoMon");
-    const cryptoMon = await CryptoMon.deploy(0xee30045A8E684340801ff404Cf6d3a8B9b0934C7); // Pass deployer's address as initial owner
+    const cryptoMon = await CryptoMon.deploy(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266); // Pass deployer's address as initial owner
     await cryptoMon.deployed();
 
     // Create a new monster

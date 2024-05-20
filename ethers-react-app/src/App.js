@@ -1,32 +1,46 @@
-const React = require('react');
-const { useEffect, useState } = require('react');
-const getContract = require('./utils/contract');
+import React, { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js'; // Import the configuration
 
 const App = () => {
   const [monsters, setMonsters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMonsters = async () => {
-      const contract = getContract();
-      const totalMonsters = await contract.totalSupply();
-      const monsterArray = [];
+      try {
+        if (!window.ethereum) throw new Error('No Ethereum provider found');
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-      for (let i = 0; i < totalMonsters; i++) {
-        const monster = await contract.monsters(i);
-        monsterArray.push(monster);
+        console.log('Contract:', contract);
+        
+        const totalMonsters = await contract.totalSupply();
+        console.log('Total Monsters:', totalMonsters.toString());
+
+        const monsterArray = [];
+        for (let i = 0; i < totalMonsters; i++) {
+          const monster = await contract.getMonster(i);
+          monsterArray.push(monster);
+        }
+
+        setMonsters(monsterArray);
+      } catch (error) {
+        console.error('Error fetching monsters:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
-        console.log(monsterArray);
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-      setMonsters(monsterArray);
     };
 
     fetchMonsters();
   }, []);
 
-  const handleBattle = async (attackerId, defenderId) => {
-    const contract = getContract();
-    await contract.attackMonster(attackerId, defenderId);
-  };
+  if (loading) return <p>Loading monsters...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
@@ -38,11 +52,10 @@ const App = () => {
           <p>Attack: {monster.attack}</p>
           <p>Defense: {monster.defense}</p>
           <p>Speed: {monster.speed}</p>
-          <button onClick={() => handleBattle(monster.id, 1)}>Attack</button>
         </div>
       ))}
     </div>
   );
 };
 
-module.exports = App;
+export default App;

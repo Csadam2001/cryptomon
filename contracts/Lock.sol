@@ -22,7 +22,7 @@ contract Lock is ERC721URIStorage, Ownable {
     event MonsterCreated(uint256 indexed monsterId, address owner);
     event BattleResult(uint256 indexed winnerId, uint256 indexed loserId);
 
-    constructor(address initialOwner) Ownable(initialOwner) ERC721("CryptoMon", "CMON") {}
+    constructor() ERC721("CryptoMon", "CMON") Ownable(msg.sender) {}
 
     function createMonster(
         uint256 health,
@@ -48,15 +48,15 @@ contract Lock is ERC721URIStorage, Ownable {
 
         // Simple attack logic
         if (attacker.attack > defender.defense) {
-            defender.health -= (attacker.attack - defender.defense);
+            defender.health = defender.health > (attacker.attack - defender.defense) ? defender.health - (attacker.attack - defender.defense) : 0;
             emit BattleResult(attackerId, defenderId);
-            if (defender.health <= 0) {
+            if (defender.health == 0) {
                 _burn(defenderId); // Remove the monster if it dies
             }
         } else {
-            attacker.health -= (defender.defense - attacker.attack);
+            attacker.health = attacker.health > (defender.defense - attacker.attack) ? attacker.health - (defender.defense - attacker.attack) : 0;
             emit BattleResult(defenderId, attackerId);
-            if (attacker.health <= 0) {
+            if (attacker.health == 0) {
                 _burn(attackerId); // Remove the monster if it dies
             }
         }
@@ -77,5 +77,12 @@ contract Lock is ERC721URIStorage, Ownable {
         monster.experience = 0; // Reset experience after leveling up
     }
 
-    // Additional functions as needed for handling other game mechanics
+    function totalSupply() public view returns (uint256) {
+        return monsters.length;
+    }
+
+    function getMonster(uint256 monsterId) public view returns (Monster memory) {
+        require(monsterId < monsters.length, "Monster does not exist.");
+        return monsters[monsterId];
+    }
 }

@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
-    const cryptoMonAddress = '0xee30045A8E684340801ff404Cf6d3a8B9b0934C7'; // Update this
+    const cryptoMonAddress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'; // Update this
     const CryptoMon = await hre.ethers.getContractFactory("CryptoMon");
     const cryptoMon = await CryptoMon.attach(cryptoMonAddress);
 
