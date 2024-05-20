@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js'; // Import the configuration
+import { BrowserProvider, Contract } from 'ethers';
+import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js';
 
 const App = () => {
   const [monsters, setMonsters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
   useEffect(() => {
     const fetchMonsters = async () => {
       try {
         if (!window.ethereum) throw new Error('No Ethereum provider found');
         await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = new ethers.BrowserProvider(window.ethereum);
+        const provider = new BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-
-        console.log('Contract:', contract);
+        const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+        console.log('Provider:', provider);
+        console.log('Signer:', signer);
         
+        console.log('Contract:', contract);
+
         const totalMonsters = await contract.totalSupply();
         console.log('Total Monsters:', totalMonsters.toString());
 
@@ -46,12 +48,12 @@ const App = () => {
     <div>
       {monsters.map((monster, index) => (
         <div key={index}>
-          <h2>Monster #{monster.id}</h2>
-          <p>Health: {monster.health}</p>
-          <p>Mana: {monster.mana}</p>
-          <p>Attack: {monster.attack}</p>
-          <p>Defense: {monster.defense}</p>
-          <p>Speed: {monster.speed}</p>
+          <h2>Monster #{monster.id.toString()}</h2>
+          <p>Health: {monster.health.toString()}</p>
+          <p>Mana: {monster.mana.toString()}</p>
+          <p>Attack: {monster.attack.toString()}</p>
+          <p>Defense: {monster.defense.toString()}</p>
+          <p>Speed: {monster.speed.toString()}</p>
         </div>
       ))}
     </div>

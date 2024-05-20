@@ -8,5 +8,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["scripts", "test", "typechain"],
-  "files": ["hardhat.config.cjs"]
+  "files": ["hardhat.config.ts"]
 }

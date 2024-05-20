@@ -1,12 +1,12 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy();
+  const CryptoMon = await ethers.getContractFactory("Lock");
+  const cryptoMon = await CryptoMon.deploy();
 
-  await lock.deployed();
+  await cryptoMon.waitForDeployment();
 
-  console.log("Lock deployed to:", lock.address);
+  console.log("CryptoMon deployed to:", await cryptoMon.getAddress());
 }
 
 main()
