@@ -10,23 +10,13 @@ async function main() {
     const { address } = JSON.parse(fs.readFileSync(addressesFilePath, "utf-8"));
     const cryptoMon = await CryptoMon.attach(address);
 
-    const monstersData = [
-        { health: 100, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
-    ];
+    const totalSupply = await cryptoMon.totalSupply();
+    console.log("Total Monsters:", totalSupply.toString());
 
-    for (const data of monstersData) {
-        const tx = await cryptoMon.createMonster(
-            data.health, 
-            data.mana, 
-            data.attack, 
-            data.defense, 
-            data.speed, 
-            data.uri
-        );
-        await tx.wait();
+    for (let i = 0; i < totalSupply; i++) {
+        const monster = await cryptoMon.getMonster(i);
+        console.log(`Monster ${i}:`, monster);
     }
-
-    console.log("Monsters created");
 }
 
 main()

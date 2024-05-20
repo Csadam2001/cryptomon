@@ -1,4 +1,6 @@
 import { ethers } from "hardhat";
+import fs from "fs";
+import path from "path";
 
 async function main() {
   const CryptoMon = await ethers.getContractFactory("Lock");
@@ -6,7 +8,11 @@ async function main() {
 
   await cryptoMon.waitForDeployment();
 
-  console.log("CryptoMon deployed to:", await cryptoMon.getAddress());
+  const address = await cryptoMon.getAddress();
+  console.log("CryptoMon deployed to:", address);
+
+  const addressesFilePath = path.join(__dirname, "deployedAddress.json");
+  fs.writeFileSync(addressesFilePath, JSON.stringify({ address }));
 }
 
 main()
