@@ -11,7 +11,15 @@ async function main() {
     const cryptoMon = await CryptoMon.attach(address);
 
     const monstersData = [
+        { health: 50, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
         { health: 100, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 200, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 300, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 400, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 500, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 600, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 700, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
+        { health: 800, mana: 50, attack: 20, defense: 15, speed: 10, uri: "https://example.com/monster-metadata-uri" },
     ];
 
     for (const data of monstersData) {

@@ -1,7 +1,8 @@
 const { ethers } = require("hardhat");
-const { CONTRACT_ADDRESS, CONTRACT_ABI } = require("../src/config");
 
 async function main() {
+
+  const { CONTRACT_ADDRESS, CONTRACT_ABI } = await import("../ethers-react-app/src/config.js");
   const [deployer] = await ethers.getSigners();
   console.log('Fetching monsters with the account:', deployer.address);
 
