@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol"; // Add this line
 
 contract Lock is ERC721URIStorage, Ownable {
     struct Monster {
@@ -20,7 +21,8 @@ contract Lock is ERC721URIStorage, Ownable {
     Monster[] public monsters;
 
     event MonsterCreated(uint256 indexed monsterId, address owner);
-    event BattleResult(uint256 indexed winnerId, uint256 indexed loserId);
+    event BattleResult(uint256 indexed winnerId, uint256 indexed loserId, uint256 winnerNewHealth, uint256 loserNewHealth);
+    event Attack(uint256 indexed attackerId, uint256 indexed defenderId, uint256 damage);
 
     constructor() ERC721("CryptoMon", "CMON") Ownable(msg.sender) {}
 
@@ -46,20 +48,28 @@ contract Lock is ERC721URIStorage, Ownable {
         Monster storage attacker = monsters[attackerId];
         Monster storage defender = monsters[defenderId];
 
-        // Simple attack logic
-        if (attacker.attack > defender.defense) {
-            defender.health = defender.health > (attacker.attack - defender.defense) ? defender.health - (attacker.attack - defender.defense) : 0;
-            emit BattleResult(attackerId, defenderId);
+        uint256 attackPower = attacker.attack * 2; // Increase attack power
+        uint256 defensePower = defender.defense;
+
+        uint256 damage;
+        if (attackPower > defensePower) {
+            damage = attackPower - defensePower;
+            defender.health = defender.health > damage ? defender.health - damage : 0;
+            emit Attack(attackerId, defenderId, damage);
             if (defender.health == 0) {
                 _burn(defenderId); // Remove the monster if it dies
+                delete monsters[defenderId]; // Remove the monster from the array
             }
         } else {
-            attacker.health = attacker.health > (defender.defense - attacker.attack) ? attacker.health - (defender.defense - attacker.attack) : 0;
-            emit BattleResult(defenderId, attackerId);
+            damage = defensePower - attackPower;
+            attacker.health = attacker.health > damage ? attacker.health - damage : 0;
+            emit Attack(defenderId, attackerId, damage);
             if (attacker.health == 0) {
                 _burn(attackerId); // Remove the monster if it dies
+                delete monsters[attackerId]; // Remove the monster from the array
             }
         }
+        emit BattleResult(attackerId, defenderId, attacker.health, defender.health);
     }
 
     function levelUp(uint256 monsterId) public {
@@ -85,4 +95,5 @@ contract Lock is ERC721URIStorage, Ownable {
         require(monsterId < monsters.length, "Monster does not exist.");
         return monsters[monsterId];
     }
+
 }

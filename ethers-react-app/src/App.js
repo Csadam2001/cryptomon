@@ -6,7 +6,8 @@ const App = () => {
   const [monsters, setMonsters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const [attackLogs, setAttackLogs] = useState([]);
+
   useEffect(() => {
     const fetchMonsters = async () => {
       try {
@@ -15,13 +16,8 @@ const App = () => {
         const provider = new BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-        console.log('Provider:', provider);
-        console.log('Signer:', signer);
-        
-        console.log('Contract:', contract);
 
         const totalMonsters = await contract.totalSupply();
-        console.log('Total Monsters:', totalMonsters.toString());
 
         const monsterArray = [];
         for (let i = 0; i < totalMonsters; i++) {
@@ -30,6 +26,17 @@ const App = () => {
         }
 
         setMonsters(monsterArray);
+
+        // Fetch attack logs
+        const filter = contract.filters.BattleResult();
+        const logs = await contract.queryFilter(filter);
+        const parsedLogs = logs.map(log => ({
+          attackerId: log.args.attackerId.toString(),
+          defenderId: log.args.defenderId.toString(),
+          damage: log.args.damage.toString(),
+          newHealth: log.args.newHealth.toString(),
+        }));
+        setAttackLogs(parsedLogs);
       } catch (error) {
         console.error('Error fetching monsters:', error);
         setError(error.message);
@@ -54,6 +61,12 @@ const App = () => {
           <p>Attack: {monster.attack.toString()}</p>
           <p>Defense: {monster.defense.toString()}</p>
           <p>Speed: {monster.speed.toString()}</p>
+        </div>
+      ))}
+      <h2>Battle Logs</h2>
+      {attackLogs.map((log, index) => (
+        <div key={index}>
+          <p>Attacker ID: {log.attackerId}, Defender ID: {log.defenderId}, Damage: {log.damage}, New Health: {log.newHealth}</p>
         </div>
       ))}
     </div>
