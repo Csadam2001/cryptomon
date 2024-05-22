@@ -1,7 +1,10 @@
 const { ethers } = require("hardhat");
-const { CONTRACT_ADDRESS, CONTRACT_ABI } = require("../src/config");
 
 async function main() {
+  // Dinamikus importálás
+  const config = await import("../ethers-react-app/src/config.js");
+  const { CONTRACT_ADDRESS, CONTRACT_ABI } = config;
+
   const [deployer] = await ethers.getSigners();
   console.log('Fetching monsters with the account:', deployer.address);
 

@@ -13,7 +13,13 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 
 APP RUNNING COMMANDS:
+cd ethers-react-app
+npm install --legacy-peer-deps //ezt cd-ve a ethers appba
+npm install --save-dev ts-node --legacy-peer- /ezt cd-ve a ethers appba
+cd ..
 npx hardhat node
+npx hardhat clean
+npx hardhat compile
 npx hardhat run scripts/deploy.ts --network localhost 
 #the result: CryptoMon deployed to: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0 //the current ID
 #copy the Id to config.js contract field- like: export const CONTRACT_ADDRESS = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
