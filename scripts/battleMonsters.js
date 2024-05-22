@@ -1,9 +1,14 @@
 const hre = require("hardhat");
+const fs = require("fs");
+const path = require("path");
 
 async function main() {
     const [deployer] = await hre.ethers.getSigners();
-    const CryptoMon = await hre.ethers.getContractFactory("CryptoMon");
-    const cryptoMon = await CryptoMon.attach(deployer.address);
+    const CryptoMon = await hre.ethers.getContractFactory("Lock");
+
+    const addressesFilePath = path.join(__dirname, "deployedAddress.json");
+    const { address } = JSON.parse(fs.readFileSync(addressesFilePath, "utf-8"));
+    const cryptoMon = await CryptoMon.attach(address);
 
     // Battle between two monsters
     const tx = await cryptoMon.attackMonster(0, 1); // Use actual monster IDs
