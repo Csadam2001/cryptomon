@@ -12,3 +12,15 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.monsters-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.monster-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  width: 45%;
+}

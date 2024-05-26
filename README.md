@@ -25,7 +25,7 @@ npx hardhat run scripts/deploy.ts --network localhost
 #copy the Id to config.js contract field- like: export const CONTRACT_ADDRESS = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 npx hardhat run ./scripts/createMonster.js --network localhost
 //good result: Monsters created
-PS C:\Users\Domján Balázs\.vscode\Project\cryptomon> npx hardhat run ./scripts/fetchMonsters.js --network localhost
+ npx hardhat run ./scripts/fetchMonsters.js --network localhost
 //good resultTotal Monsters: 1
 Monster 0: Result(9) [
   0n,
@@ -39,4 +39,5 @@ Monster 0: Result(9) [
   'https://example.com/monster-metadata-uri' //
 
   cd ethers-react-app
-  npm start
+  npm 
+  + Add MetaMask extension to chrome and log in
