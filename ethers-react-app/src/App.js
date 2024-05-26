@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { BrowserProvider, Contract } from 'ethers';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from './config.js';
